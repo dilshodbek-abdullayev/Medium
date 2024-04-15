@@ -1,4 +1,4 @@
-﻿using MediatR;
+﻿          using MediatR;
 using Medium.Domain.Entities;
 using Medium.Application.UseCases.MediumUser.Queries;
 using System;

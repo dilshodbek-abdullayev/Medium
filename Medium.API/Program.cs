@@ -1,6 +1,7 @@
 
 using Medium.Application;
 using Medium.Infractructure;
+using Microsoft.VisualBasic;
 
 namespace Medium.API
 {
@@ -8,6 +9,8 @@ namespace Medium.API
     {
         public static void Main(string[] args)
         {
+            var MyAllowSpecificOrigin = "_myAllowSpecificOrigin";
+
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
@@ -17,7 +20,20 @@ namespace Medium.API
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
-            
+
+
+
+            builder.Services.AddCors(options =>
+            {
+
+                options.AddPolicy(name: MyAllowSpecificOrigin, policy =>
+                {
+                    policy.AllowAnyHeader()
+                    .AllowAnyOrigin()
+                    .AllowAnyMethod();
+                });
+            });
+        
 
             var app = builder.Build();
 
@@ -26,10 +42,13 @@ namespace Medium.API
             {
                 app.UseSwagger();
                 app.UseSwaggerUI();
+                
             }
+
 
             app.UseHttpsRedirection();
 
+            app.UseCors(MyAllowSpecificOrigin);
             app.UseAuthorization();
 
 
